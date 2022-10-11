@@ -34,8 +34,26 @@ public class Plant {
 
 
     public String changeName(String newname) {
-
         return this.name = newname;
     }
+
+    public int changeDaysBetweenWater(int newdays) {
+        return this.daysBetweenWater = newdays;
+    }
+
+    public String changeLightType(String newlighttype) {
+        return this.lightType = newlighttype;
+    }
+
+    public String changeBirthday(String newbirthday) {
+        return this.birthday = newbirthday;
+    }
+
+    /*
+    public String printInfo(){
+        System.out.println(this.name"," this.daysBetweenWater "," this.lightType "," this.birthday);
+    }
+
+     */
 
 }
