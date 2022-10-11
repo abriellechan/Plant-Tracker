@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class PlantApp {
 
     private Scanner input;
+    private GardenList gardenList;
 
     public PlantApp() {
         runPlant();
@@ -64,9 +66,7 @@ public class PlantApp {
 
     private void processNewPlantCommand(String command) {
 
-        init();
-
-        System.out.println("enter plant name: ");
+        System.out.println("enter plant name: "); //pull stuff out into a new function.. and check if the user input dne
         String plantname = input.next();
         System.out.println("enter plant birthday: ");
         String plantbday = input.next();
@@ -74,22 +74,26 @@ public class PlantApp {
         switch (command) {
             case "m":
                 Plant mnewplant = new Monstera(plantname, plantbday);
-                //gardenList.add(mnewplant);
+                gardenList.addPlantToGarden(mnewplant);
                 System.out.println("new monstera " + plantname + " created!");
+                System.out.println(gardenList);
                 break;
 
             case "p":
                 Plant pnewplant = new Pothos(plantname, plantbday);
+                gardenList.addPlantToGarden(pnewplant);
                 System.out.println("new pothos " + plantname + " created!");
                 break;
 
             case "sop":
                 Plant sopnewplant = new StringOfPearls(plantname, plantbday);
+                gardenList.addPlantToGarden(sopnewplant);
                 System.out.println("new string of pearls " + plantname + " created!");
                 break;
 
             case "s":
                 Plant snewplant = new Succulent(plantname, plantbday);
+                gardenList.addPlantToGarden(snewplant);
                 System.out.println("new succulent " + plantname + " created!");
                 break;
 
@@ -106,8 +110,7 @@ public class PlantApp {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
 
-
-        GardenList gardenList = new GardenList();
+        gardenList = new GardenList();
     }
 
     // EFFECTS: displays menu of options to user
@@ -128,21 +131,19 @@ public class PlantApp {
         System.out.println("\ts -> Succulent");
     }
 
-    //TODO
-    void doNewPlant(String whichplant){
-        //prompt user for which plant they want to add
-        //prompt user for the name and birthday of their new plant
-        //using the info above, call constructor for plant and add it to the list of plants
-        //print a statement like "bobby" was added to your garden!
-    }
 
     //TODO
     //EFFECTS: prints out names and types of the plants the user owns
     void menuView() {
+        System.out.println("\nwhat plant would you like to view? type name below: \n");
+        for (Plant p : gardenList.getGardenList()) {
+            System.out.println(p.getName());
+
+        }
     }
 
     //TODO
-    void doView(){
+    void doView() {
         //print a list of the plants that they have
         // example:
         // "bobby" the Monstera
@@ -162,7 +163,7 @@ public class PlantApp {
     }
 
     //TODO
-    void doEdit(){
+    void doEdit() {
         //display same list of plants
         //prompt user for which plant they want to edit
         //display the info of that plant (like above)
@@ -171,8 +172,6 @@ public class PlantApp {
         //call the edit function in model.Plant
         //print a line like "bobby's birthday was changed to august 6!"
     }
-
-
 
 
 }

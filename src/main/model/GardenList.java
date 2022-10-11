@@ -5,15 +5,22 @@ import java.util.List;
 
 public class GardenList {
 
-    private ArrayList gardenList;
+    private ArrayList<Plant> gardenList;
 
     public GardenList() {
         gardenList = new ArrayList<Plant>();
     }
 
-
     public void addPlantToGarden(Plant p) {
         gardenList.add(p);
+    }
+
+    public int sizeOfGarden() {
+        return gardenList.size();
+    }
+
+    public ArrayList<Plant> getGardenList() {
+        return gardenList;
     }
 
 }
