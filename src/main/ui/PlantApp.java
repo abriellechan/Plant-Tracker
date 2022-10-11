@@ -17,7 +17,7 @@ public class PlantApp {
 
     private void runPlant() {
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         init();
 
@@ -40,14 +40,19 @@ public class PlantApp {
     // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
-        if (command.equals("new plant")) {
-            doNewPlant();
-        } else if (command.equals("view")) {
-            doView();
-        } else if (command.equals("edit")) {
-            doEdit();
-        } else {
-            System.out.println("select a listed option pls :>");
+        switch (command) {
+            case "new plant":
+                doNewPlant();
+                break;
+            case "view":
+                doView();
+                break;
+            case "edit":
+                doEdit();
+                break;
+            default:
+                System.out.println("select a listed option pls :>");
+                break;
         }
     }
 
