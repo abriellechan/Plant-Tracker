@@ -19,4 +19,5 @@ I have tried to write down the info by hand, but I think an application like thi
 - as a user, I want to be able to add a new plant to a list of plants
 - as a user, I want to view my list of plants
 - as a user, I want to be able to select a plant and view data about them
+- as a user, I want to be able to edit some fields of my plants
 - as a user, I want to be able to name my plants :) 

@@ -70,9 +70,10 @@ public class PlantApp {
         System.out.println("enter plant name: "); //pull stuff out into a new function.. and check if the user input dne
         String plantname = input.next();
         for (Plant p : gardenList.getGardenList()) {
-            if (plantname == p.getName()) {
+            if (plantname.equals(p.getName())) {
                 System.out.println("please pick a name that hasn't been used already!");
-                break;
+                //TODO,, stop it from continuing
+
             }
         }
         System.out.println("enter plant birthday: ");
