@@ -67,22 +67,27 @@ public class PlantApp {
 
     private void checkDuplicateNameCommand(String command) {
 
-        System.out.println("enter plant name: "); //pull stuff out into a new function.. and check if the user input dne
-        String plantname = input.next();
+        if (command.equals("m") || command.equals("p") || command.equals("sop") || command.equals("s")) {
+            System.out.println("enter plant name: ");
+            //pull stuff out into a new function.. and check if the user input dne
+            String plantname = input.next();
 
-
-        if (gardenList.sizeOfGarden() == 0) {
-            processNewPlantCommand(command, plantname);
-        } else {
-            for (Plant p : gardenList.getGardenList()) {
-                if (plantname.equals(p.getName())) {
-                    System.out.println("please pick a name that hasn't been used already!");
-                } else {
-                    processNewPlantCommand(command, plantname);
+            if (gardenList.sizeOfGarden() == 0) {
+                processNewPlantCommand(command, plantname);
+            } else {
+                for (Plant p : gardenList.getGardenList()) {
+                    if (plantname.equals(p.getName())) {
+                        System.out.println("please pick a name that hasn't been used already!");
+                    } else {
+                        processNewPlantCommand(command, plantname);
+                    }
                 }
             }
+        } else {
+            System.out.println("select a listed option pls :>");
         }
     }
+
 
     private void processNewPlantCommand(String command, String plantname) {
 
@@ -108,17 +113,11 @@ public class PlantApp {
                 System.out.println("new string of pearls " + plantname + " created!");
                 break;
 
-            case "s":
+            default:
                 Succulent snewplant = new Succulent(plantname, plantbday);
                 gardenList.addPlantToGarden(snewplant);
                 System.out.println("new succulent " + plantname + " created!");
                 break;
-
-            default:
-                System.out.println("select a listed option pls :>");
-                break;
-
-
         }
     }
 
