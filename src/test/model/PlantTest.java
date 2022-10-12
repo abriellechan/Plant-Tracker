@@ -10,7 +10,7 @@ class PlantTest {
 
     @BeforeEach
     void runBefore(){
-        testPlant = new Plant("bobby", 5, "direct light", "January 5");
+        testPlant = new Plant("bobby", "pothos", 5, "direct light", "January 5");
     }
 
     @Test
