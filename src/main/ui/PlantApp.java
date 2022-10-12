@@ -89,6 +89,7 @@ public class PlantApp {
     }
 
 
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void processNewPlantCommand(String command, String plantname) {
 
         System.out.println("enter plant birthday: ");
@@ -171,6 +172,7 @@ public class PlantApp {
 
 
     //TODO
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     void menuEdit() {
         System.out.println("which plant would you like to edit? type name below: ");
         for (Plant p : gardenList.getGardenList()) {
