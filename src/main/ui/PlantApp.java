@@ -61,21 +61,31 @@ public class PlantApp {
     private void optionNewPlant() {
         menuNewPlant();
         String command = input.next();
-        processNewPlantCommand(command);
+        checkDuplicateNameCommand(command);
     }
 
 
-    private void processNewPlantCommand(String command) {
+    private void checkDuplicateNameCommand(String command) {
 
         System.out.println("enter plant name: "); //pull stuff out into a new function.. and check if the user input dne
         String plantname = input.next();
-        for (Plant p : gardenList.getGardenList()) {
-            if (plantname.equals(p.getName())) {
-                System.out.println("please pick a name that hasn't been used already!");
-                //TODO,, stop it from continuing
 
+
+        if (gardenList.sizeOfGarden() == 0) {
+            processNewPlantCommand(command, plantname);
+        } else {
+            for (Plant p : gardenList.getGardenList()) {
+                if (plantname.equals(p.getName())) {
+                    System.out.println("please pick a name that hasn't been used already!");
+                } else {
+                    processNewPlantCommand(command, plantname);
+                }
             }
         }
+    }
+
+    private void processNewPlantCommand(String command, String plantname) {
+
         System.out.println("enter plant birthday: ");
         String plantbday = input.next();
 
@@ -84,7 +94,6 @@ public class PlantApp {
                 Monstera mnewplant = new Monstera(plantname, plantbday);
                 gardenList.addPlantToGarden(mnewplant);
                 System.out.println("new monstera " + plantname + " created!");
-                System.out.println(gardenList);
                 break;
 
             case "p":
@@ -112,6 +121,7 @@ public class PlantApp {
 
         }
     }
+
 
     private void init() {
 
@@ -160,21 +170,6 @@ public class PlantApp {
         }
     }
 
-    //TODO
-    void doView() {
-        //print a list of the plants that they have
-        // example:
-        // "bobby" the Monstera
-        // "abby" the Pothos
-        // "fluffy" the String of Pearls
-        //then prompt the user for the name of the plant they wish to view more closely
-        //then print out the info of that plant
-        //example
-        // fluffy!
-        // plant: String of Pearls
-        // days needed between watering: 5
-        // birthday: april 3
-    }
 
     //TODO
     void menuEdit() {
@@ -205,17 +200,6 @@ public class PlantApp {
             }
         }
         System.out.println("please pick an existing plant!");
-    }
-
-    //TODO
-    void doEdit() {
-        //display same list of plants
-        //prompt user for which plant they want to edit
-        //display the info of that plant (like above)
-        //prompt user for keyword of what they want to change, example: "birthday"
-        //prompt the user for the new edit
-        //call the edit function in model.Plant
-        //print a line like "bobby's birthday was changed to august 6!"
     }
 
 
