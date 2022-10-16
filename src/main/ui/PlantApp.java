@@ -2,9 +2,7 @@ package ui;
 
 import model.*;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -75,12 +73,18 @@ public class PlantApp {
             if (gardenList.sizeOfGarden() == 0) {
                 processNewPlantCommand(command, plantname);
             } else {
+                ArrayList<String> toBeAdded = new ArrayList<>();
                 for (Plant p : gardenList.getGardenList()) {
                     if (plantname.equals(p.getName())) {
                         System.out.println("please pick a name that hasn't been used already!");
+                        return;
                     } else {
-                        processNewPlantCommand(command, plantname);
+                        toBeAdded.add(command);
+                        toBeAdded.add(plantname);
                     }
+                }
+                if (!toBeAdded.isEmpty()) {
+                    processNewPlantCommand(command, plantname);
                 }
             }
         } else {
@@ -89,37 +93,35 @@ public class PlantApp {
     }
 
 
-    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void processNewPlantCommand(String command, String plantname) {
-
         System.out.println("enter plant birthday: ");
         String plantbday = input.next();
-
         switch (command) {
             case "m":
                 Monstera mnewplant = new Monstera(plantname, plantbday);
-                gardenList.addPlantToGarden(mnewplant);
-                System.out.println("new monstera " + plantname + " created!");
+                addPlantToTheGarden(mnewplant, "monstera", plantname);
                 break;
 
             case "p":
                 Pothos pnewplant = new Pothos(plantname, plantbday);
-                gardenList.addPlantToGarden(pnewplant);
-                System.out.println("new pothos " + plantname + " created!");
+                addPlantToTheGarden(pnewplant, "pothos", plantname);
                 break;
 
             case "sop":
                 StringOfPearls sopnewplant = new StringOfPearls(plantname, plantbday);
-                gardenList.addPlantToGarden(sopnewplant);
-                System.out.println("new string of pearls " + plantname + " created!");
+                addPlantToTheGarden(sopnewplant, "string of pearls", plantname);
                 break;
 
             default:
                 Succulent snewplant = new Succulent(plantname, plantbday);
-                gardenList.addPlantToGarden(snewplant);
-                System.out.println("new succulent " + plantname + " created!");
+                addPlantToTheGarden(snewplant, "succulent", plantname);
                 break;
         }
+    }
+
+    private void addPlantToTheGarden(Plant newplant, String type, String plantname) {
+        gardenList.addPlantToGarden(newplant);
+        System.out.println("new " + type + " " + plantname + " created!");
     }
 
 
@@ -140,7 +142,6 @@ public class PlantApp {
         System.out.println("\tquit -> quit :>");
     }
 
-    //TODO
     void menuNewPlant() {
         System.out.println("\nwhat plant would you like to add? Choose from: ");
         System.out.println("\tm -> Monstera");
@@ -150,7 +151,6 @@ public class PlantApp {
     }
 
 
-    //TODO
     //EFFECTS: prints out names and types of the plants the user owns
     void menuView() {
         System.out.println("\nwhat plant would you like to view? type name below: \n");
@@ -166,42 +166,60 @@ public class PlantApp {
                 System.out.println("it needs " + p.getDaysBetweenWater() + " days between water cycles");
                 System.out.println("it needs " + p.getLightType() + " to thrive :)");
                 System.out.println("and was born on " + p.getBirthday());
-            }
-        }
-    }
-
-
-    //TODO
-    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
-    void menuEdit() {
-        System.out.println("which plant would you like to edit? type name below: ");
-        for (Plant p : gardenList.getGardenList()) {
-            System.out.println(p.getName());
-        }
-
-        String searchplant = input.next();
-        for (Plant p : gardenList.getGardenList()) {
-            if (searchplant.equals(p.getName())) {
-                System.out.println("which field would you like to edit? ");
-                System.out.println("\nn -> name");
-                System.out.println("\nb -> birthday");
-
-                String editfield = input.next();
-                if (editfield.equals("n")) {
-                    System.out.println("what would you like to name the plant? ");
-                    String newname = input.next();
-                    p.changeName(newname);
-                    System.out.println("your plant was renamed to " + newname + "!");
-                } else if (editfield.equals("b")) {
-                    System.out.println("when was your plant born? ");
-                    String newbday = input.next();
-                    p.changeBirthday(newbday);
-                    System.out.println("your plant's new birthday is " + newbday + "!");
-                }
+                return;
             }
         }
         System.out.println("please pick an existing plant!");
     }
 
 
+    void menuEdit() {
+        System.out.println("which plant would you like to edit? type name below: ");
+        for (Plant p : gardenList.getGardenList()) {
+            System.out.println(p.getName());
+        }
+        String searchplant = input.next();
+
+        nextMenuEdit(searchplant);
+
+
+    }
+
+    public void nextMenuEdit(String searchplant) {
+
+        for (Plant p : gardenList.getGardenList()) {
+            if (searchplant.equals(p.getName())) {
+                System.out.println("which field would you like to edit? ");
+                System.out.println("\nn -> name");
+                System.out.println("\nb -> birthday");
+                String editfield = input.next();
+                if (editfield.equals("n")) {
+                    System.out.println("what would you like to name the plant? ");
+                    String newname = input.next();
+                    renameOrNot(newname, searchplant);
+                    break; //TODO how to break out of the for loop entirely
+                } else if (editfield.equals("b")) {
+                    System.out.println("when was your plant born? ");
+                    String newbday = input.next();
+                    p.changeBirthday(newbday);
+                    System.out.println("your plant's new birthday is " + newbday + "!");
+                    break;
+                }
+            }
+        }
+    }
+
+    //TODO fix sob
+    public void renameOrNot(String newname, String searchplant) {
+        for (Plant p : gardenList.getGardenList()) {
+            if (!p.getName().equals(newname) && p.getName().equals(searchplant)) {
+                p.changeName(newname);
+                System.out.println("your plant was renamed to " + newname + "!");
+                return;
+            }
+        }
+        System.out.println("please pick a name that doesn't exist yet!");
+    }
 }
+
+

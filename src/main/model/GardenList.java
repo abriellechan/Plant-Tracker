@@ -22,5 +22,4 @@ public class GardenList {
     public ArrayList<Plant> getGardenList() {
         return gardenList;
     }
-
 }

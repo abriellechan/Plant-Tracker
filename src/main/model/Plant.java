@@ -39,20 +39,12 @@ public class Plant {
     }
 
 
-    public String changeName(String newname) {
-        return this.name = newname;
+    public void changeName(String newname) {
+        this.name = newname;
     }
 
-    public int changeDaysBetweenWater(int newdays) {
-        return this.daysBetweenWater = newdays;
-    }
-
-    public String changeLightType(String newlighttype) {
-        return this.lightType = newlighttype;
-    }
-
-    public String changeBirthday(String newbirthday) {
-        return this.birthday = newbirthday;
+    public void changeBirthday(String newbirthday) {
+        this.birthday = newbirthday;
     }
 
 
