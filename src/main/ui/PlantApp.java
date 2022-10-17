@@ -41,7 +41,6 @@ public class PlantApp {
 
     }
 
-    // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
         switch (command) {
