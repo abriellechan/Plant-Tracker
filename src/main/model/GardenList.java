@@ -15,6 +15,17 @@ public class GardenList {
         gardenList.add(p);
     }
 
+    public void removePlantFromGarden(String name) {
+        Plant oopsPlant = null;
+        for (Plant plant : gardenList) {
+            if ((plant.getName()).equals(name)) {
+                oopsPlant = plant;
+            }
+        }
+        gardenList.remove(oopsPlant);
+    }
+
+
     public int sizeOfGarden() {
         return gardenList.size();
     }
@@ -22,4 +33,6 @@ public class GardenList {
     public ArrayList<Plant> getGardenList() {
         return gardenList;
     }
+
+
 }

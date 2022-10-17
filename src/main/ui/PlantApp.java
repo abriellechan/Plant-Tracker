@@ -50,6 +50,9 @@ public class PlantApp {
             case "edit":
                 menuEdit();
                 break;
+            case "oops":
+                menuOops();
+                break;
             default:
                 System.out.println("select a listed option pls :>");
                 break;
@@ -139,6 +142,7 @@ public class PlantApp {
         System.out.println("\tnew -> create a new plant!");
         System.out.println("\tview -> view all your plants");
         System.out.println("\tedit -> edit your plant's info");
+        System.out.println("\toops -> remove plant from garden :(");
         System.out.println("\tquit -> quit :>");
     }
 
@@ -209,7 +213,29 @@ public class PlantApp {
         }
     }
 
-    //TODO fix sob
+
+    public void menuOops() {
+        if (gardenList.sizeOfGarden() == 0) {
+            System.out.println("you have no plants to remove!");
+        } else {
+            System.out.println("which plant would you like to remove? type name below: ");
+            for (Plant p : gardenList.getGardenList()) {
+                System.out.println(p.getName());
+            }
+            String byeplant = input.next();
+
+            for (Plant plant : gardenList.getGardenList()) {
+                if ((plant.getName()).equals(byeplant)) {
+                    gardenList.removePlantFromGarden(byeplant);
+                    System.out.printf(byeplant + " was removed from your garden!");
+                    return;
+                }
+            }
+            System.out.println("please pick a plant that exists!");
+        }
+    }
+
+
     public void renameOrNot(String newname, String searchplant) {
         for (Plant p : gardenList.getGardenList()) {
             if (!p.getName().equals(newname) && p.getName().equals(searchplant)) {
