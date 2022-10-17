@@ -16,6 +16,7 @@ class PlantTest {
     @Test
     void testConstructor(){
         assertEquals("bobby", testPlant.getName());
+        assertEquals("pothos", testPlant.getPlantType());
         assertEquals(5, testPlant.getDaysBetweenWater());
         assertEquals("direct light", testPlant.getLightType());
         assertEquals("January 5", testPlant.getBirthday());
@@ -32,7 +33,4 @@ class PlantTest {
         testPlant.changeBirthday("April 20");
         assertEquals("April 20", testPlant.getBirthday());
     }
-
-
-
 }
