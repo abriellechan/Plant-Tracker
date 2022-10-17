@@ -8,7 +8,8 @@ public class Plant {
     private String lightType;
     private String birthday;
 
-    //CONSTRUCTOR
+    //REQUIRES: int daysBetweenWater > 0
+    //EFFECTS: constructs a Plant
     public Plant(String name, String plantType, int daysBetweenWater, String lightType, String birthday) {
         this.name = name;
         this.plantType = plantType;
@@ -38,11 +39,12 @@ public class Plant {
         return birthday;
     }
 
-
+    //EFFECTS: changes name of plant
     public void changeName(String newname) {
         this.name = newname;
     }
 
+    //EFFECTS: changes birthday of plant
     public void changeBirthday(String newbirthday) {
         this.birthday = newbirthday;
     }

@@ -11,10 +11,14 @@ public class GardenList {
         gardenList = new ArrayList<Plant>();
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds a plant to the Garden List
     public void addPlantToGarden(Plant p) {
         gardenList.add(p);
     }
 
+    //MODIFIES: this
+    //EFFECTS: removes a plant from the Garden List
     public void removePlantFromGarden(String name) {
         Plant oopsPlant = null;
         for (Plant plant : gardenList) {

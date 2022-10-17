@@ -6,15 +6,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
+// plant tracker application!
 public class PlantApp {
 
     private Scanner input;
     private GardenList gardenList;
 
+    //EFFECTS: runs the plant tracker application
     public PlantApp() {
         runPlant();
     }
 
+    //MODIFIES: this
+    //EFFECTS: processes user input
     private void runPlant() {
         boolean keepGoing = true;
         String command;
@@ -33,7 +37,7 @@ public class PlantApp {
             }
         }
 
-        System.out.println("\nHappy Planting!");
+        System.out.println("\nhappy planting!");
 
     }
 
@@ -59,18 +63,20 @@ public class PlantApp {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: displays new plant options
     private void optionNewPlant() {
         menuNewPlant();
         String command = input.next();
-        checkDuplicateNameCommand(command);
+        checkNameAndAddPlant(command);
     }
 
-
-    private void checkDuplicateNameCommand(String command) {
+    //MODIFIES: this
+    //EFFECTS: checks for duplicate names and adds new plant
+    private void checkNameAndAddPlant(String command) {
 
         if (command.equals("m") || command.equals("p") || command.equals("sop") || command.equals("s")) {
             System.out.println("enter plant name: ");
-            //pull stuff out into a new function.. and check if the user input dne
             String plantname = input.next();
 
             if (gardenList.sizeOfGarden() == 0) {
@@ -95,7 +101,8 @@ public class PlantApp {
         }
     }
 
-
+    //MODIFIES: this
+    //EFFECTS: processes user command
     private void processNewPlantCommand(String command, String plantname) {
         System.out.println("enter plant birthday: ");
         String plantbday = input.next();
@@ -122,12 +129,15 @@ public class PlantApp {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds plant to the garden
     private void addPlantToTheGarden(Plant newplant, String type, String plantname) {
         gardenList.addPlantToGarden(newplant);
         System.out.println("new " + type + " " + plantname + " created!");
     }
 
-
+    //MODIFIES: this
+    //EFFECTS: initializes lists
     private void init() {
 
         input = new Scanner(System.in);
@@ -146,6 +156,7 @@ public class PlantApp {
         System.out.println("\tquit -> quit :>");
     }
 
+    //EFFECTS: displays menu of view options to user
     void menuNewPlant() {
         System.out.println("\nwhat plant would you like to add? Choose from: ");
         System.out.println("\tm -> Monstera");
@@ -153,7 +164,6 @@ public class PlantApp {
         System.out.println("\tsop -> String of Pearls");
         System.out.println("\ts -> Succulent");
     }
-
 
     //EFFECTS: prints out names and types of the plants the user owns
     void menuView() {
@@ -176,19 +186,19 @@ public class PlantApp {
         System.out.println("please pick an existing plant!");
     }
 
-
+    //MODIFIES: this
+    //EFFECTS: prompts user for plant
     void menuEdit() {
         System.out.println("which plant would you like to edit? type name below: ");
         for (Plant p : gardenList.getGardenList()) {
             System.out.println(p.getName());
         }
         String searchplant = input.next();
-
         nextMenuEdit(searchplant);
-
-
     }
 
+    //MODIFIES: this
+    //EFFECTS: displays next menu options and edits name/birthday
     public void nextMenuEdit(String searchplant) {
 
         for (Plant p : gardenList.getGardenList()) {
@@ -201,7 +211,7 @@ public class PlantApp {
                     System.out.println("what would you like to name the plant? ");
                     String newname = input.next();
                     renameOrNot(newname, searchplant);
-                    break; //TODO how to break out of the for loop entirely
+                    break;
                 } else if (editfield.equals("b")) {
                     System.out.println("when was your plant born? ");
                     String newbday = input.next();
@@ -213,7 +223,8 @@ public class PlantApp {
         }
     }
 
-
+    //MODIFIES: this
+    //EFFECTS: removes plant from Garden
     public void menuOops() {
         if (gardenList.sizeOfGarden() == 0) {
             System.out.println("you have no plants to remove!");
@@ -235,7 +246,8 @@ public class PlantApp {
         }
     }
 
-
+    //MODIFIES: this
+    //EFFECTS: renames plant
     public void renameOrNot(String newname, String searchplant) {
         for (Plant p : gardenList.getGardenList()) {
             if (!p.getName().equals(newname) && p.getName().equals(searchplant)) {
