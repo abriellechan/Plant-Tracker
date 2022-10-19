@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 
 // plant tracker application!
+
+//Sources: TellerApp
 public class PlantApp {
 
     private Scanner input;
