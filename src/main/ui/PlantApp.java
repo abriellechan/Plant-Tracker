@@ -2,6 +2,11 @@ package ui;
 
 import model.*;
 
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,8 +19,13 @@ public class PlantApp {
     private Scanner input;
     private GardenList gardenList;
 
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
+    private static final String JSON_STORE = "./data/gardenlist.json";
+
     //EFFECTS: runs the plant tracker application
-    public PlantApp() {
+    public PlantApp() throws FileNotFoundException {
         runPlant();
     }
 
@@ -57,6 +67,12 @@ public class PlantApp {
                 break;
             case "oops":
                 menuOops();
+                break;
+            case "save":
+                saveGardenList();
+                break;
+            case "load":
+                loadGardenList();
                 break;
             default:
                 System.out.println("select a listed option pls :>");
@@ -143,8 +159,10 @@ public class PlantApp {
 
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-
         gardenList = new GardenList();
+
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     // EFFECTS: displays menu of options to user
@@ -154,6 +172,8 @@ public class PlantApp {
         System.out.println("\tview -> view all your plants");
         System.out.println("\tedit -> edit your plant's info");
         System.out.println("\toops -> remove plant from garden :(");
+        System.out.println("\tsave -> save your garden to file!");
+        System.out.println("\tload -> load your garden from file!");
         System.out.println("\tquit -> quit :>");
     }
 
@@ -259,6 +279,32 @@ public class PlantApp {
         }
         System.out.println("please pick a name that doesn't exist yet!");
     }
+
+    // EFFECTS: saves the workroom to file
+    private void saveGardenList() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(gardenList);
+            jsonWriter.close();
+            System.out.println("saved your garden to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadGardenList() {
+        try {
+            gardenList = jsonReader.read();
+            System.out.println("Loaded your garden from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+
+
 }
 
 

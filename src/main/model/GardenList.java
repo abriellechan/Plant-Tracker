@@ -1,12 +1,16 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 
-public class GardenList {
+import java.util.ArrayList;
+
+public class GardenList implements Writable {
 
     private ArrayList<Plant> gardenList;
 
+    //EFFECTS: constructs an empty garden list
     public GardenList() {
         gardenList = new ArrayList<Plant>();
     }
@@ -29,7 +33,6 @@ public class GardenList {
         gardenList.remove(oopsPlant);
     }
 
-
     public int sizeOfGarden() {
         return gardenList.size();
     }
@@ -38,5 +41,23 @@ public class GardenList {
         return gardenList;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("gardenlist", plantsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    // thingies
+    private JSONArray plantsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Plant p : gardenList) {
+            jsonArray.put(p.toJson());
+        }
+
+        return jsonArray;
+    }
 
 }

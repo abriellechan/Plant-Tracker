@@ -1,6 +1,9 @@
 package model;
 
-public class Plant {
+import org.json.JSONObject;
+import persistence.Writable;
+
+public class Plant implements Writable {
 
     private String name;
     private String plantType;
@@ -49,5 +52,16 @@ public class Plant {
         this.birthday = newbirthday;
     }
 
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("plant type", plantType);
+        json.put("days between water", daysBetweenWater);
+        json.put("light type", lightType);
+        json.put("birthday", birthday);
+        return json;
+    }
 
 }
