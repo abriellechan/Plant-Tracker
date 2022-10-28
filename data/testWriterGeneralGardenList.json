@@ -1,13 +1,13 @@
 {"gardenlist": [
     {
-        "birthday": "hi",
-        "plant type": "monstera",
-        "days between water": 10,
+        "birthday": "jan 1",
+        "plant type": "string of pearls",
+        "days between water": 14,
         "name": "bob",
         "light type": "indirect light"
     },
     {
-        "birthday": "hi",
+        "birthday": "jan 2",
         "plant type": "monstera",
         "days between water": 10,
         "name": "lob",

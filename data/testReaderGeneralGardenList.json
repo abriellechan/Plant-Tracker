@@ -1,0 +1,16 @@
+{"gardenlist": [
+  {
+    "birthday": "april 6",
+    "plant type": "monstera",
+    "days between water": 10,
+    "name": "bob",
+    "light type": "indirect light"
+  },
+  {
+    "birthday": "dec 29",
+    "plant type": "succulent",
+    "days between water": 21,
+    "name": "boop",
+    "light type": "direct light"
+  }
+]}

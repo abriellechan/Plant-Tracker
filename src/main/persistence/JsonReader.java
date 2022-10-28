@@ -11,7 +11,9 @@ import java.util.stream.Stream;
 
 import org.json.*;
 
-// Represents a reader that reads workroom from JSON data stored in file
+//Sources: JsonSerializationDemo
+
+// Represents a reader that reads gardenlist from JSON data stored in file
 public class JsonReader {
     private String source;
 
@@ -39,27 +41,27 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses workroom from JSON object and returns it
+    // EFFECTS: parses gardenlist from JSON object and returns it
     private GardenList parseGardenList(JSONObject jsonObject) {
         //String name = jsonObject.getString("name");
-        GardenList gr = new GardenList();
-        addPlants(gr, jsonObject);
-        return gr;
+        GardenList gl = new GardenList();
+        addPlants(gl, jsonObject);
+        return gl;
     }
 
-    // MODIFIES: wr
+    // MODIFIES: gl
     // EFFECTS: parses plants from JSON object and adds them to gardenlist
-    private void addPlants(GardenList gr, JSONObject jsonObject) {
+    private void addPlants(GardenList gl, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("gardenlist");
         for (Object json : jsonArray) {
             JSONObject nextThingy = (JSONObject) json;
-            addPlant(gr, nextThingy);
+            addPlant(gl, nextThingy);
         }
     }
 
-    // MODIFIES: gr
+    // MODIFIES: gl
     // EFFECTS: parses plant from JSON object and adds it to gardenlist
-    private void addPlant(GardenList gr, JSONObject jsonObject) {
+    private void addPlant(GardenList gl, JSONObject jsonObject) {
 
         String name = jsonObject.getString("name");
         String plantType = jsonObject.getString("plant type");
@@ -68,7 +70,7 @@ public class JsonReader {
         String birthday = jsonObject.getString("birthday");
 
         Plant plant = new Plant(name, plantType, daysBetweenWater, lightType, birthday);
-        gr.addPlantToGarden(plant);
+        gl.addPlantToGarden(plant);
     }
 
 }

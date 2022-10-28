@@ -6,11 +6,13 @@ import org.json.JSONObject;
 
 import java.io.*;
 
-// Represents a writer that writes JSON representation of workroom to file
+// Represents a writer that writes JSON representation of gardenlist to file
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;
     private String destination;
+
+    //Sources: JsonSerializationDemo
 
     // EFFECTS: constructs writer to write to destination file
     public JsonWriter(String destination) {
@@ -25,9 +27,9 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of workroom to file
-    public void write(GardenList gr) {
-        JSONObject json = gr.toJson();
+    // EFFECTS: writes JSON representation of gardenlist to file
+    public void write(GardenList gl) {
+        JSONObject json = gl.toJson();
         saveToFile(json.toString(TAB));
     }
 
