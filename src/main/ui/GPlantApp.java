@@ -1,7 +1,7 @@
 package ui;
 
 import model.GardenList;
-import org.w3c.dom.ls.LSOutput;
+
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -9,6 +9,9 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.ImageIcon;
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -16,8 +19,8 @@ import java.io.IOException;
 
 public class GPlantApp extends JFrame {
 
-
-    //private JPanel gPlantApp;
+    public static final int WIDTH = 500;
+    public static final int HEIGHT = 300;
 
     private GardenList gardenList;
 
@@ -27,6 +30,7 @@ public class GPlantApp extends JFrame {
     private JButton btnSave;
     private JButton btnLoad;
     private JButton btnDel;
+    private JLabel welcomeLabel;
 
     private Boolean wasLoadPressed;
 
@@ -36,41 +40,21 @@ public class GPlantApp extends JFrame {
     private JDialog newPlantWindow;
     private JDialog displayPlantInfo;
 
+    private ImageIcon cuteplantimg;
+
 
     private static final String JSON_STORE = "./data/gardenlist.json";
 
-
-    private boolean isNewPlantWindow = false;
-
     public GPlantApp() {
         super("Plant Tracker");
-        this.setLayout(new BorderLayout());
+        //this.setLayout(new BorderLayout());
+        this.setLayout(new GridLayout(4, 1));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(300, 200);
+        this.setSize(WIDTH, HEIGHT);
         this.setVisible(true);
         init();
     }
 
-    public static void makeAndShowGUI() {
-
-        //JFrame frame = new JFrame("My Garden");
-        /*
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
-        frame.add(new GPlantApp());
-        frame.getContentPane().setBackground(new Color(194, 190, 217));
-        frame.setVisible(true);
-
-
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
-        frame.add(new GPlantApp());
-        frame.getContentPane().setBackground(new Color(194, 190, 217));
-        frame.setVisible(true);
-
-         */
-    }
 
     public void init() {
 
@@ -80,50 +64,8 @@ public class GPlantApp extends JFrame {
         gardenList = new GardenList();
         runPlantTracker();
         wasLoadPressed = false;
-
-
-
-        /*
-        scrollPanel = new JPanel();
-        scrollPanel.setSize(new Dimension(300, 300));
-        scrollPane = new JScrollPane(scrollPanel);
-        btnAddPlant = new JButton("new plant!");
-        btnSave = new JButton("save");
-        btnLoad = new JButton("load");
-        btnDel = new JButton("delete plant");
-
-        btnAddPlant.addActionListener(e -> {
-            NewPlantWindow newPlantWindow = new NewPlantWindow();
-            //popNewPlantWindow();
-        });
-
-        btnSave.addActionListener(e -> {
-            saveGardenList();
-        });
-
-        btnLoad.addActionListener(e -> {
-            loadGardenList();
-        });
-
-        btnDel.addActionListener(e -> {
-            pressDelPlant();
-        });
-
-        add(scrollPane, BorderLayout.CENTER);
-        add(btnAddPlant, BorderLayout.SOUTH);
-        add(btnSave, BorderLayout.WEST);
-        add(btnLoad, BorderLayout.EAST);
-
-         */
+        cuteplantimg = new ImageIcon("cuteplant.png");
     }
-    /*
-    public void popNewPlantWindow(){
-
-        JDialog newPlantWindow = new JDialog(this, "new plant!", true);
-
-    }
-
-     */
 
     private void runPlantTracker() {
         firstMenu();
@@ -135,15 +77,19 @@ public class GPlantApp extends JFrame {
 
     private void firstMenuComponents() {
         scrollPanel = new JPanel();
-        scrollPanel.setSize(new Dimension(300, 300));
+        scrollPanel.setSize(new Dimension(300, HEIGHT / 3));
         scrollPane = new JScrollPane(scrollPanel);
+        scrollPane.setSize(300, HEIGHT / 3);
         btnAddPlant = new JButton("new plant!");
         btnSave = new JButton("save");
         btnLoad = new JButton("load");
         btnDel = new JButton("delete plant");
 
+        welcomeLabel = new JLabel("welcome to plant tracker!");
+        welcomeLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 20));
+        welcomeLabel.setSize(WIDTH, HEIGHT / 6);
+
         btnAddPlant.addActionListener(e -> {
-            //NewPlantWindow newPlantWindow = new NewPlantWindow();
             popNewPlantWindow();
         });
 
@@ -158,11 +104,20 @@ public class GPlantApp extends JFrame {
         btnDel.addActionListener(e -> {
             pressDelPlant();
         });
+        JPanel addDelRow = new JPanel();
+        addDelRow.add(btnAddPlant);
+        addDelRow.add(btnDel);
+        addDelRow.setSize(WIDTH, HEIGHT / 6);
 
-        add(scrollPane, BorderLayout.CENTER);
-        add(btnAddPlant, BorderLayout.SOUTH);
-        add(btnSave, BorderLayout.WEST);
-        add(btnLoad, BorderLayout.EAST);
+        JPanel saveLoadRow = new JPanel();
+        saveLoadRow.add(btnSave);
+        saveLoadRow.add(btnLoad);
+        saveLoadRow.setSize(WIDTH, HEIGHT / 6);
+
+        this.add(welcomeLabel);
+        this.add(scrollPane);
+        this.add(addDelRow);
+        this.add(saveLoadRow);
     }
 
     private void popNewPlantWindow() {
@@ -202,12 +157,10 @@ public class GPlantApp extends JFrame {
 
         JLabel sameNameLabel = new JLabel("");
 
-
         plantItButton.addActionListener(e -> {
 
             String plantname = nameField.getText();
             String plantbday = birthdayField.getText();
-            // 0 = monstera, 1 = pothos, 2 = string of pearls, 3 = succulent
             int plantType = plantTypeField.getSelectedIndex();
 
             if (gardenList.getGardenList().size() != 0) {
@@ -219,6 +172,7 @@ public class GPlantApp extends JFrame {
                         newPlantWindowAddPlant(plantType, plantname, plantbday);
                         //addNewPlantScroll();
                         newPlantWindow.dispose();
+                        displayCutePlant();
                         return;
                     }
                 }
@@ -227,20 +181,35 @@ public class GPlantApp extends JFrame {
                 newPlantWindowAddPlant(plantType, plantname, plantbday);
                 //addNewPlantScroll();
                 newPlantWindow.dispose();
+                displayCutePlant();
                 return;
             }
-
-
-            System.out.println(getGPlantApp().getGardenList().getGardenList());
-            //}
-
-            //addButton(new JButton("plantname"));
-            //scrollPanel.revalidate();
-
-
         });
         newPlantWindow.setVisible(true);
 
+    }
+
+    private void displayCutePlant() {
+        JDialog cutePlant = new JDialog(this, "wow!", true);
+        cutePlant.setSize(100, 100);
+        JLabel cutePlantLabel = new JLabel(cuteplantimg);
+        cutePlantLabel.setSize(100,100);
+
+        //cutePlantLabel.setIcon(cuteplantimg);
+        cutePlant.add(cutePlantLabel);
+
+
+        Timer timer = new Timer(700, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cutePlant.dispose();
+            }
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+
+        cutePlant.setVisible(true);
     }
 
     //TODO split it up
@@ -297,7 +266,7 @@ public class GPlantApp extends JFrame {
 
     public void popDisplayPlantInfo(String plantname) {
         Plant clickedPlant = gardenList.getPlantFromGarden(plantname);
-        displayPlantInfo = new JDialog(this, "new plant!", true);
+        displayPlantInfo = new JDialog(this, "plant info!", true);
         popDisplayPlantInfoButtons(clickedPlant);
     }
 
@@ -306,23 +275,23 @@ public class GPlantApp extends JFrame {
         displayPlantInfo.setSize(375, 220);
 
         JLabel nameLabel = new JLabel("name: " + clickedPlant.getName());
-        nameLabel.setBounds(10, 50, 200, 20);
+        nameLabel.setBounds(10, 100, 80, 20);
         displayPlantInfo.add(nameLabel);
 
         JLabel typeLabel = new JLabel("type: " + clickedPlant.getPlantType());
-        nameLabel.setBounds(10, 70, 200, 20);
+        nameLabel.setBounds(10, 75, 80, 20);
         displayPlantInfo.add(typeLabel);
 
         JLabel birthdayLabel = new JLabel("birthday: " + clickedPlant.getBirthday());
-        nameLabel.setBounds(10, 90, 200, 20);
+        nameLabel.setBounds(10, 95, 80, 20);
         displayPlantInfo.add(birthdayLabel);
 
         JLabel daysBetweenWaterLabel = new JLabel("days between water: " + clickedPlant.getDaysBetweenWater());
-        nameLabel.setBounds(10, 110, 200, 20);
+        nameLabel.setBounds(10, 115, 80, 20);
         displayPlantInfo.add(daysBetweenWaterLabel);
 
         JLabel lightTypeLabel = new JLabel("light type: " + clickedPlant.getLightType());
-        nameLabel.setBounds(10, 130, 200, 20);
+        nameLabel.setBounds(10, 135, 80, 20);
         displayPlantInfo.add(lightTypeLabel);
 
         displayPlantInfo.setVisible(true);
