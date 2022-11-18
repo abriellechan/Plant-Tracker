@@ -1,16 +1,37 @@
 {"gardenlist": [
     {
-        "birthday": "hi",
+        "birthday": "",
         "plant type": "monstera",
         "days between water": 10,
         "name": "bob",
         "light type": "indirect light"
     },
     {
-        "birthday": "hi",
+        "birthday": "",
         "plant type": "monstera",
         "days between water": 10,
-        "name": "lob",
+        "name": "bob2",
+        "light type": "indirect light"
+    },
+    {
+        "birthday": "",
+        "plant type": "succulent",
+        "days between water": 21,
+        "name": "bob3",
+        "light type": "direct light"
+    },
+    {
+        "birthday": "",
+        "plant type": "monstera",
+        "days between water": 10,
+        "name": "bob4",
+        "light type": "indirect light"
+    },
+    {
+        "birthday": "",
+        "plant type": "monstera",
+        "days between water": 10,
+        "name": "bob5",
         "light type": "indirect light"
     }
 ]}

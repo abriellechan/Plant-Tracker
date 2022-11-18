@@ -33,6 +33,17 @@ public class GardenList implements Writable {
         gardenList.remove(oopsPlant);
     }
 
+
+    //EFFECTS: takes in a name, returns plant with that name. If it doesn't exist, return null
+    public Plant getPlantFromGarden(String name) {
+        for (Plant plant : gardenList) {
+            if ((plant.getName()).equals(name)) {
+                return plant;
+            }
+        }
+        return null;
+    }
+
     public int sizeOfGarden() {
         return gardenList.size();
     }
@@ -59,5 +70,6 @@ public class GardenList implements Writable {
 
         return jsonArray;
     }
+
 
 }
