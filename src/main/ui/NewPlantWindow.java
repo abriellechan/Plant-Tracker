@@ -77,7 +77,6 @@ public class NewPlantWindow extends GPlantApp {
         addNewPlantButton.setBounds(125, 120, 100, 30);
         newPlantPanel.add(addNewPlantButton);
 
-
         addNewPlantButton.addActionListener(new ActionListener() {
             @Override
 

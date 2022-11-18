@@ -25,7 +25,6 @@ public class Main {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 /*
-
                 JFrame frame = new JFrame("My Garden");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new GPlantApp());

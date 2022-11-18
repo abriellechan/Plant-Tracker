@@ -358,15 +358,12 @@ public class GPlantApp extends JFrame {
                         System.out.println("THE NAME IS " + newButton.getText());
                         popDisplayPlantInfo(newButton.getText());
                     });
-
                     scrollPanel.revalidate();
-
                 }
                 wasLoadPressed = true;
             } else {
                 btnLoad.disable();
             }
-
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }

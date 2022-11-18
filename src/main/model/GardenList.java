@@ -67,7 +67,6 @@ public class GardenList implements Writable {
         for (Plant p : gardenList) {
             jsonArray.put(p.toJson());
         }
-
         return jsonArray;
     }
 
