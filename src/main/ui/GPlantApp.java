@@ -14,8 +14,10 @@ import javax.swing.ImageIcon;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class GPlantApp extends JFrame {
 
@@ -31,6 +33,7 @@ public class GPlantApp extends JFrame {
     private JButton btnLoad;
     private JButton btnDel;
     private JLabel welcomeLabel;
+    private JLabel infoLabel;
 
     private Boolean wasLoadPressed;
 
@@ -42,19 +45,20 @@ public class GPlantApp extends JFrame {
 
     private ImageIcon cuteplantimg;
 
+    private Boolean deleting;
+
 
     private static final String JSON_STORE = "./data/gardenlist.json";
 
     public GPlantApp() {
         super("Plant Tracker");
         //this.setLayout(new BorderLayout());
-        this.setLayout(new GridLayout(4, 1));
+        this.setLayout(new GridLayout(5, 1));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(WIDTH, HEIGHT);
         this.setVisible(true);
         init();
     }
-
 
     public void init() {
 
@@ -64,7 +68,13 @@ public class GPlantApp extends JFrame {
         gardenList = new GardenList();
         runPlantTracker();
         wasLoadPressed = false;
-        cuteplantimg = new ImageIcon("cuteplant.png");
+        deleting = false;
+        //cuteplantimg = new
+                //ImageIcon("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\cuteplant.png");
+
+        //cuteplantimg = new ImageIcon("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\bob.jfif");
+
+
     }
 
     private void runPlantTracker() {
@@ -89,6 +99,9 @@ public class GPlantApp extends JFrame {
         welcomeLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 20));
         welcomeLabel.setSize(WIDTH, HEIGHT / 6);
 
+        infoLabel = new JLabel("");
+        infoLabel.setSize(WIDTH, HEIGHT / 7);
+
         btnAddPlant.addActionListener(e -> {
             popNewPlantWindow();
         });
@@ -104,20 +117,32 @@ public class GPlantApp extends JFrame {
         btnDel.addActionListener(e -> {
             pressDelPlant();
         });
+
         JPanel addDelRow = new JPanel();
         addDelRow.add(btnAddPlant);
         addDelRow.add(btnDel);
-        addDelRow.setSize(WIDTH, HEIGHT / 6);
+        addDelRow.setSize(WIDTH, HEIGHT / 8);
+
+        JPanel infoLabelRow = new JPanel();
+        infoLabelRow.add(infoLabel);
+        infoLabelRow.setSize(WIDTH, HEIGHT / 8);
 
         JPanel saveLoadRow = new JPanel();
         saveLoadRow.add(btnSave);
         saveLoadRow.add(btnLoad);
-        saveLoadRow.setSize(WIDTH, HEIGHT / 6);
+        saveLoadRow.setSize(WIDTH, HEIGHT / 8);
 
-        this.add(welcomeLabel);
+        this.add(welcomeLabel, SwingConstants.CENTER);
         this.add(scrollPane);
         this.add(addDelRow);
+        this.add(infoLabelRow);
         this.add(saveLoadRow);
+
+        ImageIcon image = new ImageIcon("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\bob.jfif");
+        JLabel imageLabel = new JLabel(image);
+        imageLabel.setSize(imageLabel.getPreferredSize());
+        imageLabel.setVisible(true);
+        this.add(imageLabel);
     }
 
     private void popNewPlantWindow() {
@@ -191,12 +216,26 @@ public class GPlantApp extends JFrame {
 
     private void displayCutePlant() {
         JDialog cutePlant = new JDialog(this, "wow!", true);
-        cutePlant.setSize(100, 100);
-        JLabel cutePlantLabel = new JLabel(cuteplantimg);
-        cutePlantLabel.setSize(100,100);
-
-        //cutePlantLabel.setIcon(cuteplantimg);
+        cutePlant.setSize(200, 200);
+        //JLabel cutePlantLabel = new JLabel(cuteplantimg);
+        JLabel cutePlantLabel = new JLabel(new ImageIcon("bob.jfif"));
+        //cutePlantLabel.setSize(99, 99);
+        cutePlantLabel.setBounds(0, 0, 99, 99);
         cutePlant.add(cutePlantLabel);
+
+
+        try {
+            File imageFile     = new File("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\bob.jfif");
+            byte[]    imageBytes    = Files.readAllBytes(imageFile.toPath());
+            ImageIcon swingIcon     = new ImageIcon(imageBytes);
+            JLabel    iconLabel     = new JLabel(swingIcon);
+            iconLabel.setBounds(0,0,200,200);
+            add(iconLabel);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+
 
 
         Timer timer = new Timer(700, new ActionListener() {
@@ -210,6 +249,8 @@ public class GPlantApp extends JFrame {
         timer.start();
 
         cutePlant.setVisible(true);
+
+
     }
 
     //TODO split it up
@@ -257,8 +298,17 @@ public class GPlantApp extends JFrame {
         JButton newButton = new JButton(newplant.getName());
         scrollPanel.add(newButton);
         newButton.addActionListener(e -> {
-            System.out.println("THE NAME IS " + newButton.getText());
-            popDisplayPlantInfo(newButton.getText());
+            //System.out.println("THE NAME IS " + newButton.getText());
+            if (!deleting) {
+                popDisplayPlantInfo(newButton.getText());
+            } else {
+                System.out.println("deleting plant");
+                gardenList.removePlantFromGarden(newButton.getText());
+                newButton.setVisible(false);
+                infoLabel.setText("");
+                deleting = false;
+            }
+
         });
         scrollPanel.revalidate();
         System.out.println("new " + type + " " + plantname + " created!");
@@ -271,34 +321,43 @@ public class GPlantApp extends JFrame {
     }
 
     private void popDisplayPlantInfoButtons(Plant clickedPlant) {
-        displayPlantInfo.setLayout(null);
-        displayPlantInfo.setSize(375, 220);
 
-        JLabel nameLabel = new JLabel("name: " + clickedPlant.getName());
+        displayPlantInfo.setLayout(new GridLayout(5, 1));
+        displayPlantInfo.setSize(500, 500);
+
+        //JLabel nameLabel = new JLabel("            name: " + clickedPlant.getName());
+        JLabel nameLabel = new JLabel("             " + clickedPlant.getName());
+        nameLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 20));
+
         nameLabel.setBounds(10, 100, 80, 20);
         displayPlantInfo.add(nameLabel);
 
-        JLabel typeLabel = new JLabel("type: " + clickedPlant.getPlantType());
+        JLabel typeLabel = new JLabel("            type: " + clickedPlant.getPlantType());
         nameLabel.setBounds(10, 75, 80, 20);
         displayPlantInfo.add(typeLabel);
 
-        JLabel birthdayLabel = new JLabel("birthday: " + clickedPlant.getBirthday());
+        JLabel birthdayLabel = new JLabel("            birthday: " + clickedPlant.getBirthday());
         nameLabel.setBounds(10, 95, 80, 20);
         displayPlantInfo.add(birthdayLabel);
 
-        JLabel daysBetweenWaterLabel = new JLabel("days between water: " + clickedPlant.getDaysBetweenWater());
+        JLabel daysBetweenWaterLabel = new JLabel("            days between water: " + clickedPlant.getDaysBetweenWater());
         nameLabel.setBounds(10, 115, 80, 20);
         displayPlantInfo.add(daysBetweenWaterLabel);
 
-        JLabel lightTypeLabel = new JLabel("light type: " + clickedPlant.getLightType());
+        JLabel lightTypeLabel = new JLabel("            light type: " + clickedPlant.getLightType());
         nameLabel.setBounds(10, 135, 80, 20);
         displayPlantInfo.add(lightTypeLabel);
 
         displayPlantInfo.setVisible(true);
+
+
     }
 
     //TODO
     public void pressDelPlant() {
+        infoLabel.setText("please click the plant you would like to delete above");
+        deleting = true;
+
     }
 
     // EFFECTS: saves the workroom to file
@@ -324,14 +383,25 @@ public class GPlantApp extends JFrame {
                     JButton newButton = new JButton(p.getName());
                     scrollPanel.add(newButton);
                     newButton.addActionListener(e -> {
-                        System.out.println("THE NAME IS " + newButton.getText());
-                        popDisplayPlantInfo(newButton.getText());
+                        if (!deleting) {
+                            System.out.println("THE NAME IS " + newButton.getText());
+                            popDisplayPlantInfo(newButton.getText());
+                        } else {
+                            System.out.println("deleting plant");
+                            //TODO
+                            System.out.println("deleting plant");
+                            gardenList.removePlantFromGarden(newButton.getText());
+                            newButton.setVisible(false);
+                            infoLabel.setText("");
+                            deleting = false;
+                        }
+
                     });
                     scrollPanel.revalidate();
                 }
                 wasLoadPressed = true;
             } else {
-                btnLoad.disable();
+                btnLoad.setVisible(false);
             }
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
