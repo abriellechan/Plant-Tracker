@@ -24,15 +24,6 @@ public class Main {
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                /*
-                JFrame frame = new JFrame("My Garden");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(new GPlantApp());
-                frame.setVisible(true);
-                frame.getContentPane().setBackground(new Color(194, 190, 217));
-                 */
-
-                //GPlantApp.makeAndShowGUI();
                 new GPlantApp();
             }
         });

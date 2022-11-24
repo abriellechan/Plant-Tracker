@@ -11,8 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.NoRouteToHostException;
-import java.util.ArrayList;
 
 public class NewPlantWindow extends GPlantApp {
 
@@ -98,14 +96,14 @@ public class NewPlantWindow extends GPlantApp {
                             sameNameLabel.setText("you already have a plant with this name!");
                             //return;
                         //} else {
-                            newPlantWindowAddPlant(plantType, plantname, plantbday);
+                            newPlantAddToGarden(plantType, plantname, plantbday);
                             //addNewPlantScroll();
                             newPlantFrame.dispose();
                         }
                     //}
 
                 } else {
-                    newPlantWindowAddPlant(plantType, plantname, plantbday);
+                    newPlantAddToGarden(plantType, plantname, plantbday);
                     //addNewPlantScroll();
                     newPlantFrame.dispose();
                 }
@@ -129,26 +127,26 @@ public class NewPlantWindow extends GPlantApp {
 
     }
 
-    public void newPlantWindowAddPlant(int plantType, String plantname, String plantbday) {
+    public void newPlantAddToGarden(int plantType, String plantname, String plantbday) {
         switch (plantType) {
             case 0:
                 Monstera mnewplant = new Monstera(plantname, plantbday);
-                addPlantToTheGarden(mnewplant, "monstera", plantname);
+                newPlantButtonActListen(mnewplant, "monstera", plantname);
                 break;
 
             case 1:
                 Pothos pnewplant = new Pothos(plantname, plantbday);
-                addPlantToTheGarden(pnewplant, "pothos", plantname);
+                newPlantButtonActListen(pnewplant, "pothos", plantname);
                 break;
 
             case 2:
                 StringOfPearls sopnewplant = new StringOfPearls(plantname, plantbday);
-                addPlantToTheGarden(sopnewplant, "string of pearls", plantname);
+                newPlantButtonActListen(sopnewplant, "string of pearls", plantname);
                 break;
 
             default:
                 Succulent snewplant = new Succulent(plantname, plantbday);
-                addPlantToTheGarden(snewplant, "succulent", plantname);
+                newPlantButtonActListen(snewplant, "succulent", plantname);
                 break;
         }
 

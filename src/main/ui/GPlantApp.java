@@ -14,10 +14,8 @@ import javax.swing.ImageIcon;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
 
 public class GPlantApp extends JFrame {
 
@@ -43,13 +41,12 @@ public class GPlantApp extends JFrame {
     private JDialog newPlantWindow;
     private JDialog displayPlantInfo;
 
-    private ImageIcon cuteplantimg;
-
     private Boolean deleting;
 
 
     private static final String JSON_STORE = "./data/gardenlist.json";
 
+    //EFFECTS: creates GPLantApp frame
     public GPlantApp() {
         super("Plant Tracker");
         //this.setLayout(new BorderLayout());
@@ -60,31 +57,28 @@ public class GPlantApp extends JFrame {
         init();
     }
 
+    //EFFECTS: initializes needed variables and calls function to begin creating/displaying menus
     public void init() {
 
-        System.out.println("iniialize");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         gardenList = new GardenList();
         runPlantTracker();
         wasLoadPressed = false;
         deleting = false;
-        //cuteplantimg = new
-                //ImageIcon("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\cuteplant.png");
-
-        //cuteplantimg = new ImageIcon("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\bob.jfif");
-
-
     }
 
+    //EFFECTS: runs function to start showing first menu
     private void runPlantTracker() {
         firstMenu();
     }
 
+    //EFFECTS: runs function to display components
     private void firstMenu() {
         firstMenuComponents();
     }
 
+    //EFFECTS: creates components for main menu
     private void firstMenuComponents() {
         scrollPanel = new JPanel();
         scrollPanel.setSize(new Dimension(300, HEIGHT / 3));
@@ -102,6 +96,11 @@ public class GPlantApp extends JFrame {
         infoLabel = new JLabel("");
         infoLabel.setSize(WIDTH, HEIGHT / 7);
 
+        firstMenuComponentsActListeners();
+    }
+
+    //EFFECTS: creates action listeners for each button
+    private void firstMenuComponentsActListeners() {
         btnAddPlant.addActionListener(e -> {
             popNewPlantWindow();
         });
@@ -117,6 +116,12 @@ public class GPlantApp extends JFrame {
         btnDel.addActionListener(e -> {
             pressDelPlant();
         });
+
+        firstMenuComponentsCreateandShow();
+    }
+
+    //EFFECTS: displays components for main menu
+    private void firstMenuComponentsCreateandShow() {
 
         JPanel addDelRow = new JPanel();
         addDelRow.add(btnAddPlant);
@@ -137,24 +142,19 @@ public class GPlantApp extends JFrame {
         this.add(addDelRow);
         this.add(infoLabelRow);
         this.add(saveLoadRow);
-
-        ImageIcon image = new ImageIcon("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\bob.jfif");
-        JLabel imageLabel = new JLabel(image);
-        imageLabel.setSize(imageLabel.getPreferredSize());
-        imageLabel.setVisible(true);
-        this.add(imageLabel);
     }
 
+    //EFFECTS: creates Dialog box for the 'new plant' popup
     private void popNewPlantWindow() {
         newPlantWindow = new JDialog(this, "new plant!", true);
+        newPlantWindow.setLayout(null);
+        newPlantWindow.setSize(375, 220);
         popNewPlantButtons();
 
     }
 
+    //EFFECTS: creates/displays 'new plant' pop up components
     private void popNewPlantButtons() {
-        newPlantWindow.setLayout(null);
-        newPlantWindow.setSize(375, 220);
-
         String[] plantTypeStrings = {"monstera", "pothos", "string of pearls", "succulent"};
         JComboBox plantTypeField = new JComboBox(plantTypeStrings);
         plantTypeField.setBounds(10, 20, 200, 20);
@@ -181,7 +181,15 @@ public class GPlantApp extends JFrame {
         newPlantWindow.add(plantItButton);
 
         JLabel sameNameLabel = new JLabel("");
+        sameNameLabel.setBounds(70, 150, 300, 30);
+        newPlantWindow.add(sameNameLabel);
 
+        popNewPlantActListener(plantItButton, nameField, birthdayField, plantTypeField, sameNameLabel);
+    }
+
+    //EFFECTS: creates action listener for the 'plant it!' button on the 'new plant' menu
+    private void popNewPlantActListener(JButton plantItButton, JTextField nameField, JTextField birthdayField,
+                                        JComboBox plantTypeField, JLabel sameNameLabel) {
         plantItButton.addActionListener(e -> {
 
             String plantname = nameField.getText();
@@ -194,51 +202,36 @@ public class GPlantApp extends JFrame {
                         sameNameLabel.setText("you already have a plant with this name!");
                         return;
                     } else {
-                        newPlantWindowAddPlant(plantType, plantname, plantbday);
-                        //addNewPlantScroll();
-                        newPlantWindow.dispose();
+                        newPlantAddToGarden(plantType, plantname, plantbday);
+
                         displayCutePlant();
                         return;
                     }
                 }
 
             } else {
-                newPlantWindowAddPlant(plantType, plantname, plantbday);
-                //addNewPlantScroll();
-                newPlantWindow.dispose();
+                newPlantAddToGarden(plantType, plantname, plantbday);
                 displayCutePlant();
                 return;
             }
         });
         newPlantWindow.setVisible(true);
-
     }
 
+    //EFFECTS: displays the popup gif animation when plant is successfully created (when 'plant it!' is pressed)
     private void displayCutePlant() {
+
+        newPlantWindow.dispose();
+
         JDialog cutePlant = new JDialog(this, "wow!", true);
         cutePlant.setSize(200, 200);
-        //JLabel cutePlantLabel = new JLabel(cuteplantimg);
-        JLabel cutePlantLabel = new JLabel(new ImageIcon("bob.jfif"));
-        //cutePlantLabel.setSize(99, 99);
+        JLabel cutePlantLabel = new JLabel(new
+                ImageIcon("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\cuteplant.gif"));
+        cutePlantLabel.setSize(834, 839);
         cutePlantLabel.setBounds(0, 0, 99, 99);
         cutePlant.add(cutePlantLabel);
 
-
-        try {
-            File imageFile     = new File("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\bob.jfif");
-            byte[]    imageBytes    = Files.readAllBytes(imageFile.toPath());
-            ImageIcon swingIcon     = new ImageIcon(imageBytes);
-            JLabel    iconLabel     = new JLabel(swingIcon);
-            iconLabel.setBounds(0,0,200,200);
-            add(iconLabel);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-
-
-
-        Timer timer = new Timer(700, new ActionListener() {
+        Timer timer = new Timer(800, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cutePlant.dispose();
@@ -253,52 +246,45 @@ public class GPlantApp extends JFrame {
 
     }
 
-    //TODO split it up
-    private void plantItButtonAction() {
-
-    }
-
-    public void newPlantWindowAddPlant(int plantType, String plantname, String plantbday) {
+    //EFFECTS: adds plant to garden (according to selected type)
+    public void newPlantAddToGarden(int plantType, String plantname, String plantbday) {
         switch (plantType) {
             case 0:
                 Monstera mnewplant = new Monstera(plantname, plantbday);
-                addPlantToTheGarden(mnewplant, "monstera", plantname);
+                newPlantButtonActListen(mnewplant, "monstera", plantname);
                 break;
 
             case 1:
                 Pothos pnewplant = new Pothos(plantname, plantbday);
-                addPlantToTheGarden(pnewplant, "pothos", plantname);
+                newPlantButtonActListen(pnewplant, "pothos", plantname);
                 break;
 
             case 2:
                 StringOfPearls sopnewplant = new StringOfPearls(plantname, plantbday);
-                addPlantToTheGarden(sopnewplant, "string of pearls", plantname);
+                newPlantButtonActListen(sopnewplant, "string of pearls", plantname);
                 break;
 
             default:
                 Succulent snewplant = new Succulent(plantname, plantbday);
-                addPlantToTheGarden(snewplant, "succulent", plantname);
+                newPlantButtonActListen(snewplant, "succulent", plantname);
                 break;
         }
 
     }
 
 
-    //called from the add plant window popup
-    // adds the plant that was passed from the popup to the gardenList, as well as
-    public void addPlantToTheGarden(Plant newplant, String type, String plantname) {
+    //EFFECTS: adds button for the new plant as well as creates action listener
+    public void newPlantButtonActListen(Plant newplant, String type, String plantname) {
         gardenList.addPlantToGarden(newplant);
 
         for (Plant p : gardenList.getGardenList()) {
             System.out.println("THIS IS WHAT IS IN LIST " + p.getName() + " END");
-            //scrollPanel.add(new JButton(p.getName()));
-            //scrollPanel.revalidate();
         }
 
         JButton newButton = new JButton(newplant.getName());
         scrollPanel.add(newButton);
         newButton.addActionListener(e -> {
-            //System.out.println("THE NAME IS " + newButton.getText());
+
             if (!deleting) {
                 popDisplayPlantInfo(newButton.getText());
             } else {
@@ -314,18 +300,18 @@ public class GPlantApp extends JFrame {
         System.out.println("new " + type + " " + plantname + " created!");
     }
 
+    //EFFECTS: creates Dialog to display plant info
     public void popDisplayPlantInfo(String plantname) {
         Plant clickedPlant = gardenList.getPlantFromGarden(plantname);
         displayPlantInfo = new JDialog(this, "plant info!", true);
         popDisplayPlantInfoButtons(clickedPlant);
     }
 
+    //EFFECTS: creates/displays plant info components
     private void popDisplayPlantInfoButtons(Plant clickedPlant) {
-
-        displayPlantInfo.setLayout(new GridLayout(5, 1));
+        displayPlantInfo.setLayout(new GridLayout(6, 1));
         displayPlantInfo.setSize(500, 500);
 
-        //JLabel nameLabel = new JLabel("            name: " + clickedPlant.getName());
         JLabel nameLabel = new JLabel("             " + clickedPlant.getName());
         nameLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 20));
 
@@ -340,7 +326,8 @@ public class GPlantApp extends JFrame {
         nameLabel.setBounds(10, 95, 80, 20);
         displayPlantInfo.add(birthdayLabel);
 
-        JLabel daysBetweenWaterLabel = new JLabel("            days between water: " + clickedPlant.getDaysBetweenWater());
+        JLabel daysBetweenWaterLabel = new
+                JLabel("            days between water: " + clickedPlant.getDaysBetweenWater());
         nameLabel.setBounds(10, 115, 80, 20);
         displayPlantInfo.add(daysBetweenWaterLabel);
 
@@ -348,12 +335,22 @@ public class GPlantApp extends JFrame {
         nameLabel.setBounds(10, 135, 80, 20);
         displayPlantInfo.add(lightTypeLabel);
 
-        displayPlantInfo.setVisible(true);
-
-
+        bob(clickedPlant);
     }
 
-    //TODO
+    //EFFECTS: :) displays bob photo in info when the plant name includes 'bob'
+    public void bob(Plant clickedPlant) {
+        if (clickedPlant.getName().contains("bob")) {
+            JLabel bob = new JLabel(new
+                    ImageIcon("C:\\Users\\User\\Desktop\\UBC\\CPSC 210\\proj\\src\\main\\ui\\bob.jpg"));
+            bob.setSize(150, 160);
+            displayPlantInfo.add(bob);
+        }
+
+        displayPlantInfo.setVisible(true);
+    }
+
+    //EFFECTS: changes text label on main menu and sets deleting to true
     public void pressDelPlant() {
         infoLabel.setText("please click the plant you would like to delete above");
         deleting = true;
@@ -377,35 +374,36 @@ public class GPlantApp extends JFrame {
     public void loadGardenList() {
         try {
             gardenList = jsonReader.read();
-            System.out.println("Loaded your garden from " + JSON_STORE);
+            //System.out.println("Loaded your garden from " + JSON_STORE);
             if (!wasLoadPressed) {
-                for (Plant p : gardenList.getGardenList()) {
-                    JButton newButton = new JButton(p.getName());
-                    scrollPanel.add(newButton);
-                    newButton.addActionListener(e -> {
-                        if (!deleting) {
-                            System.out.println("THE NAME IS " + newButton.getText());
-                            popDisplayPlantInfo(newButton.getText());
-                        } else {
-                            System.out.println("deleting plant");
-                            //TODO
-                            System.out.println("deleting plant");
-                            gardenList.removePlantFromGarden(newButton.getText());
-                            newButton.setVisible(false);
-                            infoLabel.setText("");
-                            deleting = false;
-                        }
-
-                    });
-                    scrollPanel.revalidate();
-                }
-                wasLoadPressed = true;
+                loadPlantButtons();
             } else {
                 btnLoad.setVisible(false);
             }
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: adds buttons for loaded plants to main menu
+    public void loadPlantButtons() {
+        for (Plant p : gardenList.getGardenList()) {
+            JButton newButton = new JButton(p.getName());
+            scrollPanel.add(newButton);
+            newButton.addActionListener(e -> {
+                if (!deleting) {
+                    popDisplayPlantInfo(newButton.getText());
+                } else {
+                    gardenList.removePlantFromGarden(newButton.getText());
+                    newButton.setVisible(false);
+                    infoLabel.setText("");
+                    deleting = false;
+                }
+            });
+            scrollPanel.revalidate();
+        }
+        wasLoadPressed = true;
     }
 
     public GPlantApp getGPlantApp() {

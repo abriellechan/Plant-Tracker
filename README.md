@@ -23,3 +23,11 @@ I have tried to write down the info by hand, but I think an application like thi
 - as a user, I want to be able to name my plants :) 
 - as a user, I want to be able to save my list of plants (garden)
 - as a user, I want to be able to load up my list of plants
+
+# Instructions for Grader
+
+- You can generate the first required event (adding Xs to a Y) by clicking the 'new plant' button, filling out the plant information and then clicking 'plant!'
+- You can generate the second required event (deleting X from Y) by clicking the 'delete' button, and then clicking the plant button that you would like to delete.
+- You can locate my visual component by clicking the 'plant it!' button when creating a new plant. A gif will pop up if this plant was successful.
+- You can save the state of my application by clicking the save button at the bottom of the main menu
+- You can reload the state of my application by clicking the load button at the bottom of the main menu
