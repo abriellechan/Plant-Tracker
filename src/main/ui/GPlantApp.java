@@ -43,9 +43,16 @@ public class GPlantApp extends JFrame {
 
     private Boolean deleting;
 
+    private Color colouruno = new Color(204,213,174);
+    private Color colourdos = new Color(233, 237, 201);
+    private Color colourtres = new Color(254, 250, 224);
+    private Color colourquatros = new Color(250, 237, 205);
+    private Color colourcinq = new Color(221, 184, 146);
+
 
     private static final String JSON_STORE = "./data/gardenlist.json";
 
+    //MODIFIES: this
     //EFFECTS: creates GPLantApp frame
     public GPlantApp() {
         super("Plant Tracker");
@@ -78,6 +85,7 @@ public class GPlantApp extends JFrame {
         firstMenuComponents();
     }
 
+    //MODIFIES: this
     //EFFECTS: creates components for main menu
     private void firstMenuComponents() {
         scrollPanel = new JPanel();
@@ -89,7 +97,7 @@ public class GPlantApp extends JFrame {
         btnLoad = new JButton("load");
         btnDel = new JButton("delete plant");
 
-        welcomeLabel = new JLabel("welcome to plant tracker!");
+        welcomeLabel = new JLabel("                      welcome to plant tracker!");
         welcomeLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 20));
         welcomeLabel.setSize(WIDTH, HEIGHT / 6);
 
@@ -98,6 +106,7 @@ public class GPlantApp extends JFrame {
 
         firstMenuComponentsActListeners();
     }
+
 
     //EFFECTS: creates action listeners for each button
     private void firstMenuComponentsActListeners() {
@@ -120,6 +129,7 @@ public class GPlantApp extends JFrame {
         firstMenuComponentsCreateandShow();
     }
 
+    //MODIFIES: this
     //EFFECTS: displays components for main menu
     private void firstMenuComponentsCreateandShow() {
 
@@ -137,22 +147,33 @@ public class GPlantApp extends JFrame {
         saveLoadRow.add(btnLoad);
         saveLoadRow.setSize(WIDTH, HEIGHT / 8);
 
-        this.add(welcomeLabel, SwingConstants.CENTER);
+        welcomeLabel.setBackground(colouruno);
+        welcomeLabel.setOpaque(true);
+        scrollPane.getHorizontalScrollBar().setBackground(colourdos);
+        scrollPane.getViewport().setBackground(colourdos);
+        addDelRow.setBackground(colourtres);
+        infoLabelRow.setBackground(colourquatros);
+        saveLoadRow.setBackground(colourcinq);
+
+        this.add(welcomeLabel);
         this.add(scrollPane);
         this.add(addDelRow);
         this.add(infoLabelRow);
         this.add(saveLoadRow);
     }
 
+    //MODIFIES: this
     //EFFECTS: creates Dialog box for the 'new plant' popup
     private void popNewPlantWindow() {
         newPlantWindow = new JDialog(this, "new plant!", true);
         newPlantWindow.setLayout(null);
         newPlantWindow.setSize(375, 220);
+        newPlantWindow.getContentPane().setBackground(colourdos);
         popNewPlantButtons();
 
     }
 
+    //MODIFIES: this
     //EFFECTS: creates/displays 'new plant' pop up components
     private void popNewPlantButtons() {
         String[] plantTypeStrings = {"monstera", "pothos", "string of pearls", "succulent"};
@@ -187,6 +208,7 @@ public class GPlantApp extends JFrame {
         popNewPlantActListener(plantItButton, nameField, birthdayField, plantTypeField, sameNameLabel);
     }
 
+    //MODIFIES: this
     //EFFECTS: creates action listener for the 'plant it!' button on the 'new plant' menu
     private void popNewPlantActListener(JButton plantItButton, JTextField nameField, JTextField birthdayField,
                                         JComboBox plantTypeField, JLabel sameNameLabel) {
@@ -218,6 +240,7 @@ public class GPlantApp extends JFrame {
         newPlantWindow.setVisible(true);
     }
 
+    //MODIFIES: this
     //EFFECTS: displays the popup gif animation when plant is successfully created (when 'plant it!' is pressed)
     private void displayCutePlant() {
 
@@ -246,6 +269,7 @@ public class GPlantApp extends JFrame {
 
     }
 
+    //MODIFIES: gardenList
     //EFFECTS: adds plant to garden (according to selected type)
     public void newPlantAddToGarden(int plantType, String plantname, String plantbday) {
         switch (plantType) {
@@ -272,7 +296,7 @@ public class GPlantApp extends JFrame {
 
     }
 
-
+    //MODIFIES: this
     //EFFECTS: adds button for the new plant as well as creates action listener
     public void newPlantButtonActListen(Plant newplant, String type, String plantname) {
         gardenList.addPlantToGarden(newplant);
@@ -307,6 +331,7 @@ public class GPlantApp extends JFrame {
         popDisplayPlantInfoButtons(clickedPlant);
     }
 
+    //MODIFIES: this
     //EFFECTS: creates/displays plant info components
     private void popDisplayPlantInfoButtons(Plant clickedPlant) {
         displayPlantInfo.setLayout(new GridLayout(6, 1));
@@ -338,6 +363,7 @@ public class GPlantApp extends JFrame {
         bob(clickedPlant);
     }
 
+    //MODIFIES: this
     //EFFECTS: :) displays bob photo in info when the plant name includes 'bob'
     public void bob(Plant clickedPlant) {
         if (clickedPlant.getName().contains("bob")) {
@@ -350,6 +376,7 @@ public class GPlantApp extends JFrame {
         displayPlantInfo.setVisible(true);
     }
 
+    //MODIFIES: this
     //EFFECTS: changes text label on main menu and sets deleting to true
     public void pressDelPlant() {
         infoLabel.setText("please click the plant you would like to delete above");
@@ -369,7 +396,6 @@ public class GPlantApp extends JFrame {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: loads workroom from file
     public void loadGardenList() {
         try {
