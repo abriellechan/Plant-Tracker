@@ -1,65 +1,16 @@
 {"gardenlist": [
     {
-        "birthday": "regreg",
-        "plant type": "pothos",
-        "days between water": 7,
-        "name": "peepee",
-        "light type": "medium light"
-    },
-    {
-        "birthday": "",
-        "plant type": "monstera",
-        "days between water": 10,
+        "birthday": "fieofenw",
+        "plant type": "succulent",
+        "days between water": 21,
         "name": "bob",
-        "light type": "indirect light"
+        "light type": "direct light"
     },
     {
-        "birthday": "",
-        "plant type": "monstera",
-        "days between water": 10,
-        "name": "fedfwbob",
-        "light type": "indirect light"
-    },
-    {
-        "birthday": "fewf",
-        "plant type": "monstera",
-        "days between water": 10,
-        "name": "kaki",
-        "light type": "indirect light"
-    },
-    {
-        "birthday": "",
-        "plant type": "monstera",
-        "days between water": 10,
-        "name": "ijo",
-        "light type": "indirect light"
-    },
-    {
-        "birthday": "",
-        "plant type": "monstera",
-        "days between water": 10,
-        "name": "kni",
-        "light type": "indirect light"
-    },
-    {
-        "birthday": "",
-        "plant type": "monstera",
-        "days between water": 10,
-        "name": "ko",
-        "light type": "indirect light"
-    },
-    {
-        "birthday": "",
-        "plant type": "monstera",
-        "days between water": 10,
-        "name": "byihbg",
-        "light type": "indirect light"
-    },
-    {
-        "birthday": "",
-        "plant type": "monstera",
-        "days between water": 10,
-        "name": "vftfvy",
+        "birthday": "fewfew",
+        "plant type": "string of pearls",
+        "days between water": 14,
+        "name": "lob",
         "light type": "indirect light"
     }
 ]}

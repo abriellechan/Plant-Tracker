@@ -31,3 +31,20 @@ I have tried to write down the info by hand, but I think an application like thi
 - You can locate my visual component by clicking the 'plant it!' button when creating a new plant. A gif will pop up if this plant was successful.
 - You can save the state of my application by clicking the save button at the bottom of the main menu
 - You can reload the state of my application by clicking the load button at the bottom of the main menu
+
+# Phase 4: Task 2
+- Wed Nov 30 21:24:59 PST 2022
+- bob the monstera was added!
+- Wed Nov 30 21:25:03 PST 2022
+- lob the string of pearls was added!
+- Wed Nov 30 21:25:08 PST 2022
+- oopsie the succulent was added!
+- Wed Nov 30 21:25:10 PST 2022
+- oopsie the succulent was removed.
+
+This sample is printed to the console after:
+- adding a monstera named bob
+- adding a string of pearls named lob
+- adding a succulent named oopsie
+- deleting oopsie
+- quitting the program

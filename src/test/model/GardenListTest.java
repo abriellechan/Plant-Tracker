@@ -2,6 +2,10 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GardenListTest {
@@ -51,5 +55,31 @@ public class GardenListTest {
         testGardenList.removePlantFromGarden(testPlant3.getName());
         assertEquals(testGardenList.sizeOfGarden(), 1);
     }
+
+    @Test
+    void testEventLog() {
+        testGardenList.addPlantToGarden(testPlant1);
+        testGardenList.addPlantToGarden(testPlant2);
+        testGardenList.addPlantToGarden(testPlant3);
+        testGardenList.removePlantFromGarden(testPlant3.getName());
+        testGardenList.addPlantToGarden(testPlant3);
+        testGardenList.addPlantToGarden(new Plant("bobby", "uh",
+                1, "uh", "uh"));
+        //above should not be added to event log b/c same name as plant 1
+
+        List<Event> l = new ArrayList<>();
+        EventLog el = EventLog.getInstance();
+        for (Event e : el) {
+            l.add(e);
+        }
+
+        assertEquals(l.get(0).getDescription(), "bobby the pothos was added!");
+        assertEquals(l.get(1).getDescription(), "harold the string of pearls was added!");
+        assertEquals(l.get(2).getDescription(), "sneepsnorp the succulent was added!");
+        assertEquals(l.get(3).getDescription(), "sneepsnorp the succulent was removed.");
+        assertEquals(l.get(4).getDescription(), "sneepsnorp the succulent was added!");
+
+    }
+
 
 }

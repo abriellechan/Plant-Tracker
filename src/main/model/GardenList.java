@@ -19,6 +19,7 @@ public class GardenList implements Writable {
     //EFFECTS: adds a plant to the Garden List
     public void addPlantToGarden(Plant p) {
         gardenList.add(p);
+        EventLog.getInstance().logEvent(new Event(p.getName() + " the " + p.getPlantType() + " was added!"));
     }
 
     //MODIFIES: this
@@ -31,6 +32,8 @@ public class GardenList implements Writable {
             }
         }
         gardenList.remove(oopsPlant);
+        EventLog.getInstance().logEvent(new Event(oopsPlant.getName() + " the "
+                + oopsPlant.getPlantType() + " was removed."));
     }
 
 
