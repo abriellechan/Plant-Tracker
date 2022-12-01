@@ -48,3 +48,15 @@ This sample is printed to the console after:
 - adding a succulent named oopsie
 - deleting oopsie
 - quitting the program
+
+# Phase 4: Task 3
+The main thing I would change if I had more time is to split up my GPLantApp gui class into multiple classes. 
+In comparison to the SmartHome example early in the term, my code was hard to read, trace through and debug since everything 
+was in one class. I would refactor it so that each window, (ie. the new plant window) was a seperate class, and perhaps
+split up the code so that all of the methods relating to creating the visuals of the gui were seperate from the methods
+that introduced functionality. 
+
+Another thing that I could change is my plant subclasses. Perhaps I could have come up with a different way to represent
+the plants, since they are nearly identical in structure (except for some string fields). If there was a way I could change
+it so that I didn't have 4 seperate classes for the types of plants, it could reduce some repetition (like the switch cases)
+I have in my gui. 
