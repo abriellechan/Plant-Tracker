@@ -80,6 +80,4 @@ public class GardenListTest {
         assertEquals(l.get(4).getDescription(), "sneepsnorp the succulent was added!");
 
     }
-
-
 }
